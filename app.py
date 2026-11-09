@@ -4,10 +4,10 @@ from pathlib import Path
 
 import streamlit as st
 
-from charts import daily_units_chart, top_skus_chart
-from loaders import load_sales
+from components.charts import daily_units_chart, top_skus_chart
+from data.loaders import load_sales
 
-DATA = Path(__file__).resolve().with_name("sales_daily.csv")
+DATA = Path(__file__).resolve().parents[2] / "data" / "sales_daily.csv"
 
 st.set_page_config(page_title="Sales Explorer", layout="wide")
 st.title("Sales Explorer")
@@ -35,7 +35,7 @@ with st.sidebar:
 if df.empty:
     st.warning("No sales match the selected filters.")
     st.stop()
-    
+
 units_col, revenue_col, sku_col = st.columns(3)
 units_col.metric("Total units", f"{df['units'].sum():,}")
 revenue_col.metric("Total revenue", f"{df['revenue'].sum():,.2f}")
